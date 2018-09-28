@@ -4,7 +4,7 @@ require 'prometheus/client'
 require 'prometheus/client/push'
 
 # Ruby interface to a Prometheus pushgateway
-module PrometheusMetrics
+module PushgatewayMetrics
   def self.push
     Metrics.instance.push
   end
@@ -50,9 +50,9 @@ module PrometheusMetrics
 
     def push_to_gateway
       Prometheus::Client::Push.new(
-        PrometheusMetrics.configuration.instance_name,
+        PushgatewayMetrics.configuration.instance_name,
         'local',
-        PrometheusMetrics.configuration.gateway
+        PushgatewayMetrics.configuration.gateway
       ).add(registry)
     end
   end

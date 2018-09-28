@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Ruby interface to a Prometheus pushgateway
-module PrometheusMetrics
+module PushgatewayMetrics
   class << self
     attr_accessor :configuration
   end

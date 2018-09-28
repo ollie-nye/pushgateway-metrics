@@ -2,8 +2,9 @@
 
 Prometheus is available as a ruby gem for making metrics available on a
 `/metrics` endpoint, but if you need a pushgateway as the middle man, there is
-more required configuration that isn't normally available. This gem sets
-everything up as required, allowing you to increment metrics as required
+more required configuration that isn't easily available. This gem sets
+everything up as required, allowing you to increment metrics without worrying
+about the fuss of configuring a non-standard use
 
 ## Getting started
 
@@ -14,6 +15,8 @@ everything up as required, allowing you to increment metrics as required
 ## Running the tests
 
 ## Deployment
+
+Require `pushgateway-metrics` gem 
 
 ## Built with
 
