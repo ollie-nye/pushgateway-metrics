@@ -8,9 +8,23 @@ about the fuss of configuring a non-standard use
 
 ## Getting started
 
-### Prerequisites
+This section will get you up and running with a basic setup for this project.
+For live deployment, see the section below
 
-### Installing
+### Configuration
+
+This gem takes a configuration block to set it up to your requirements.
+
+```ruby
+PushgatewayMetrics.configure do |config|
+  config.gateway = <hostname_of_gateway>
+  config.instance_name = <instance_name>
+end
+```
+
+`<hostname_of_gateway>` requires the protocol and port as well as the hostname,
+like `http://pushgateway.local:9091/`
+`<instance_name>` is what will appear on your metrics as the 'source' of data
 
 ## Running the tests
 
