@@ -1,0 +1,16 @@
+PATH
+  remote: ..
+  specs:
+    pushgateway-metrics (0.1.0)
+
+GEM
+  specs:
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  pushgateway-metrics!
+
+BUNDLED WITH
+   1.16.2
