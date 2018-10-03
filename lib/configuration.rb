@@ -16,6 +16,13 @@ module PushgatewayMetrics
     attr_accessor :job
     attr_accessor :instance_name
     attr_accessor :gateway
+    attr_writer :logger
+
+    def logger
+      @logger ||= Logger.new($stdout).tap do |log|
+        log.progname = self.name
+      end
+    end
 
     def initialize
       @job = 'local'

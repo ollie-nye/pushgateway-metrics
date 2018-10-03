@@ -14,11 +14,15 @@ module PushgatewayMetrics
       @instance ||= new
     end
 
+    def conf
+      PushgatewayMetrics.configuration
+    end
+
     def gateway
       @gateway ||= Prometheus::Client::Push.new(
-        PushgatewayMetrics.configuration.job,
-        PushgatewayMetrics.configuration.instance_name,
-        PushgatewayMetrics.configuration.gateway
+        conf.job,
+        conf.instance_name,
+        conf.gateway
       )
     end
 
@@ -28,7 +32,7 @@ module PushgatewayMetrics
 
     def error(message)
       errored true
-      puts message
+      conf.logger.info message
     end
 
     def registry
@@ -39,11 +43,11 @@ module PushgatewayMetrics
       push_to_gateway unless errored
     rescue Errno::ECONNREFUSED
       unless errored
-        error "Connection to pushgateway on #{gateway} refused. Is it up?"
+        error "Connection to gateway on #{conf.gateway} refused. Is it up?"
       end
     rescue Net::OpenTimeout
       unless errored
-        error "Connection to pushgateway on #{gateway} timed out. Is it up?"
+        error "Connection to gateway on #{conf.gateway} timed out. Is it up?"
       end
     end
 
