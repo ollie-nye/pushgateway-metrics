@@ -8,9 +8,6 @@ require 'active_support/core_ext/string/inflections'
 
 # Ruby interface to a Prometheus pushgateway
 module PushgatewayMetrics
-  def self.push
-    Metrics.instance.push
-  end
 
   # Definitions for creating and pushing metrics
   class Metrics
