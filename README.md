@@ -51,11 +51,11 @@ parameters:
   first
 - Options hash as below:
 
-Key | Type | Default Value | Description
---- | --- | --- | ---
-`type: :{counter|gauge}` | Symbol | `:counter` | Type of the metric
-`value: <number>` | Number literal | 1 | Amount to increase the metric by
-`labels: <hash>` | Hash | `{}` | Any labels here will be added onto the recorded metric to provide different levels of specifity
+Key                       | Type           | Default Value | Description
+-------------------------:| --------------:| -------------:| ---
+`type: :{counter\|gauge}` | Symbol         | `:counter`    | Type of the metric
+`value: <number>`         | Number literal | 1             | Amount to increase the metric by
+`labels: <hash>`          | Hash           | `{}`          | Any labels here will be added onto the recorded metric to provide different levels of specifity
 
 When all metrics have been set, call `push` on `metrics`. This will push all
 recorded metrics to the gateway.
@@ -74,7 +74,7 @@ metrics.push
 See `/example`
 
 Run the project with `start.sh`, it will spin up a pushgateway in docker, then
-return it's `/metrics` endpoint as the response to any requests served by the
+return its `/metrics` endpoint as the response to any requests served by the
 example.
 
 The example runs on localhost, port 4567. Visiting this will show the output of
@@ -92,7 +92,7 @@ on this repository
 ## Authors
 
 - Ollie Nye - Initial version, maintanence, testing -
-  [Github](https://github.com/ollie-nye)
+  [GitHub](https://github.com/ollie-nye)
 
 ## License
 
