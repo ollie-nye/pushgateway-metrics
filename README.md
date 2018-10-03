@@ -19,30 +19,85 @@ This gem takes a configuration block to set it up to your requirements.
 PushgatewayMetrics.configure do |config|
   config.gateway = <hostname_of_gateway>
   config.instance_name = <instance_name>
+  config.job = <job_name>
 end
 ```
 
 `<hostname_of_gateway>` requires the protocol and port as well as the hostname,
-like `http://pushgateway.local:9091/`
-`<instance_name>` is what will appear on your metrics as the 'source' of data
+like `http://pushgateway.local:9091`, without a trailing slash
+`<instance_name>` is what will appear on your metrics as the instance of the job
+`<job_name>` is what will appear on your metrics as the job or source
 
 ## Running the tests
 
-## Deployment
+Run `rspec` in the root of the project
 
-Require `pushgateway-metrics` gem 
+## Usage
 
-## Built with
+Require `pushgateway_metrics` gem
 
-## Contributing
+Configure the gem using the configuration block above. Be sure not to include a
+trailing slash on the end of the hostname
+
+### Helper method
+
+```ruby
+def metrics
+  PushgatewayMetrics::Metrics.instance
+end
+```
+
+This makes the gem available as a `metrics` method, keeping lines short and
+readable
+
+### Normal usage
+
+After configuring the gem, metrics are created and incremented in the same
+place. Call `incr` on the `metrics` method defined above with the following
+parameters:
+
+- `:metric_name` - Symbol - Name of the metric. Appears in the pushgateway
+  first
+- Options hash
+
+Key | Type | Default Value | Description
+--- | --- | --- | ---
+`type: :{counter|gauge}` | Symbol | `:counter` | Type of the metric
+`value: <number>` | Number literal | 1 | Amount to increase the metric by
+`labels: <hash>` | Hash | `{}` | Any labels here will be added onto the recorded metric to provide different levels of specifity
+
+When all metrics have been set, call `push` on `metrics`. This will push all
+recorded metrics to the gateway.
+
+```ruby
+# Absolute basic, will increment a counter called 'requests' by 1 with no labels
+metrics.incr(:requests)
+
+# All options in use
+metrics.incr(:free_memory, type: :gauge, value: 1024, labels: { app: 'ruby' })
+metrics.push
+```
+
+### Example project (sinatra)
+
+See `/example`
+
+Run the project with `start.sh`, it will spin up a pushgateway in docker, then
+return it's `/metrics` endpoint as the response to any requests served by the
+example.
+
+The example runs on localhost, port 4567. Visiting this will show the output of
+the pushgateway, and a metric added by this gem under `metric_name{instance...`
 
 ## Versioning
 
-We use [SemVer](semver.org) versioning. For the versions available, see the tags on this repository
+We use [SemVer](semver.org) versioning. For the versions available, see the tags
+on this repository
 
 ## Authors
 
-- Ollie Nye - Initial version, maintanence, testing - [Github](https://github.com/ollie-nye)
+- Ollie Nye - Initial version, maintanence, testing -
+  [Github](https://github.com/ollie-nye)
 
 ## License
 
