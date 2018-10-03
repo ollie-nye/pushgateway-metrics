@@ -2,14 +2,16 @@
 
 Prometheus is available as a ruby gem for making metrics available on a
 `/metrics` endpoint, but if you need a pushgateway as the middle man, there is
-more required configuration that isn't easily available. This gem sets
+more required configuration that is difficult to find elsewhere. This gem sets
 everything up as required, allowing you to increment metrics without worrying
 about the fuss of configuring a non-standard use
 
 ## Getting started
 
-This section will get you up and running with a basic setup for this project.
-For live deployment, see the section below
+Require `pushgateway_metrics` gem
+
+Configure the gem using the configuration block above. Be sure not to include a
+trailing slash on the end of the hostname
 
 ### Configuration
 
@@ -27,17 +29,6 @@ end
 like `http://pushgateway.local:9091`, without a trailing slash
 `<instance_name>` is what will appear on your metrics as the instance of the job
 `<job_name>` is what will appear on your metrics as the job or source
-
-## Running the tests
-
-Run `rspec` in the root of the project
-
-## Usage
-
-Require `pushgateway_metrics` gem
-
-Configure the gem using the configuration block above. Be sure not to include a
-trailing slash on the end of the hostname
 
 ### Helper method
 
@@ -78,7 +69,7 @@ metrics.incr(:free_memory, type: :gauge, value: 1024, labels: { app: 'ruby' })
 metrics.push
 ```
 
-### Example project (sinatra)
+## Example project (sinatra)
 
 See `/example`
 
@@ -88,6 +79,10 @@ example.
 
 The example runs on localhost, port 4567. Visiting this will show the output of
 the pushgateway, and a metric added by this gem under `metric_name{instance...`
+
+## Running the tests
+
+Run `rspec` in the root of the project
 
 ## Versioning
 
