@@ -10,6 +10,11 @@ end
 
 describe PushgatewayMetrics::Metrics do
   let(:instance) { PushgatewayMetrics::Metrics.new }
+  let(:request_path) {
+    "#{conf.gateway}/metrics/jobs/" \
+    "#{conf.job}/instances/" \
+    "#{conf.instance_name}"
+  }
 
   describe '#errored' do
     it 'sets true when passed true' do
@@ -26,7 +31,7 @@ describe PushgatewayMetrics::Metrics do
   describe '#error' do
     let(:err_msg) { 'an error message' }
 
-    it 'outputs the message to standard out' do
+    it 'outputs the message to the logger' do
       expect(conf.logger).to receive(:info).with(err_msg)
       instance.error(err_msg)
     end
@@ -39,24 +44,44 @@ describe PushgatewayMetrics::Metrics do
 
   describe '#push' do
     before do
-      stub_request(
-        :post,
-        "#{conf.gateway}/metrics/jobs/" \
-        "#{conf.job}/instances/" \
-        "#{conf.instance_name}"
-      )
+      stub_request(:post, request_path)
     end
 
     it 'calls add on the gateway with configured parameters' do
       instance.push
       expect(
-        a_request(
-          :post,
-          "#{conf.gateway}/metrics/jobs/" \
-          "#{conf.job}/instances/" \
-          "#{conf.instance_name}"
-        )
+        a_request(:post, request_path)
       ).to have_been_made.once
+    end
+
+    context 'when the gateway does not exist' do
+      let(:err_msg) do
+        "Connection to gateway on #{conf.gateway} refused. Is it up?"
+      end
+
+      before do
+        stub_request(:post, request_path).to_raise(Errno::ECONNREFUSED)
+      end
+
+      it 'outputs the message to the logger' do
+        expect(conf.logger).to receive(:info).with(err_msg)
+        instance.push
+      end
+    end
+
+    context 'when the gateway times out' do
+      let(:err_msg) do
+        "Connection to gateway on #{conf.gateway} timed out. Is it up?"
+      end
+
+      before do
+        stub_request(:post, request_path).to_timeout
+      end
+
+      it 'outputs the message to the logger' do
+        expect(conf.logger).to receive(:info).with(err_msg)
+        instance.push
+      end
     end
   end
 
