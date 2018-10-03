@@ -18,6 +18,14 @@ module PushgatewayMetrics
       @instance ||= new
     end
 
+    def gateway
+      @gateway ||= Prometheus::Client::Push.new(
+        PushgatewayMetrics.configuration.job,
+        PushgatewayMetrics.configuration.instance_name,
+        PushgatewayMetrics.configuration.gateway
+      )
+    end
+
     def errored(value = false)
       @errored ||= value
     end
@@ -56,11 +64,7 @@ module PushgatewayMetrics
     private
 
     def push_to_gateway
-      Prometheus::Client::Push.new(
-        PushgatewayMetrics.configuration.instance_name,
-        'local',
-        PushgatewayMetrics.configuration.gateway
-      ).add(registry)
+      gateway.add(registry)
     end
   end
 end

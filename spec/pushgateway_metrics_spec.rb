@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'spec_helper'
+
 require_relative '../lib/pushgateway_metrics.rb'
 
 describe PushgatewayMetrics::Metrics do
@@ -31,6 +33,26 @@ describe PushgatewayMetrics::Metrics do
   end
 
   describe '#push' do
+    before do
+      stub_request(
+        :post,
+        "#{PushgatewayMetrics.configuration.gateway}/metrics/jobs/" \
+        "#{PushgatewayMetrics.configuration.job}/instances/" \
+        "#{PushgatewayMetrics.configuration.instance_name}"
+      )
+    end
+
+    it 'calls add on the gateway with configured parameters' do
+      instance.push
+      expect(
+        a_request(
+          :post,
+          "#{PushgatewayMetrics.configuration.gateway}/metrics/jobs/" \
+          "#{PushgatewayMetrics.configuration.job}/instances/" \
+          "#{PushgatewayMetrics.configuration.instance_name}"
+        )
+      ).to have_been_made.once
+    end
   end
 
   describe '#incr' do
