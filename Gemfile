@@ -9,4 +9,5 @@ gem 'prometheus-client'
 group :test do
   gem 'rspec'
   gem 'rubocop'
+  gem 'webmock'
 end
