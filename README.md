@@ -52,7 +52,7 @@ parameters:
 - Options hash as below:
 
 Key                       | Type           | Default Value | Description
--------------------------:| --------------:| -------------:| ---
+------------------------- | -------------- | ------------- | ---
 `type: :{counter\|gauge}` | Symbol         | `:counter`    | Type of the metric
 `value: <number>`         | Number literal | 1             | Amount to increase the metric by
 `labels: <hash>`          | Hash           | `{}`          | Labels to add to the metric
