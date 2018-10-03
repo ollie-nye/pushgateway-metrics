@@ -4,6 +4,10 @@ require 'spec_helper'
 
 require_relative '../lib/pushgateway_metrics.rb'
 
+def conf
+  PushgatewayMetrics.configuration
+end
+
 describe PushgatewayMetrics::Metrics do
   let(:instance) { PushgatewayMetrics::Metrics.new }
 
@@ -23,7 +27,8 @@ describe PushgatewayMetrics::Metrics do
     let(:err_msg) { 'an error message' }
 
     it 'outputs the message to standard out' do
-      expect { instance.error(err_msg) }.to output(err_msg + "\n").to_stdout
+      expect(conf.logger).to receive(:info).with(err_msg)
+      instance.error(err_msg)
     end
 
     it 'sets errored to true' do
@@ -36,9 +41,9 @@ describe PushgatewayMetrics::Metrics do
     before do
       stub_request(
         :post,
-        "#{PushgatewayMetrics.configuration.gateway}/metrics/jobs/" \
-        "#{PushgatewayMetrics.configuration.job}/instances/" \
-        "#{PushgatewayMetrics.configuration.instance_name}"
+        "#{conf.gateway}/metrics/jobs/" \
+        "#{conf.job}/instances/" \
+        "#{conf.instance_name}"
       )
     end
 
@@ -47,9 +52,9 @@ describe PushgatewayMetrics::Metrics do
       expect(
         a_request(
           :post,
-          "#{PushgatewayMetrics.configuration.gateway}/metrics/jobs/" \
-          "#{PushgatewayMetrics.configuration.job}/instances/" \
-          "#{PushgatewayMetrics.configuration.instance_name}"
+          "#{conf.gateway}/metrics/jobs/" \
+          "#{conf.job}/instances/" \
+          "#{conf.instance_name}"
         )
       ).to have_been_made.once
     end

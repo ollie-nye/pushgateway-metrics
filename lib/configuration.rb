@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'logger'
+
 # Ruby interface to a Prometheus pushgateway
 module PushgatewayMetrics
   class << self
@@ -20,7 +22,7 @@ module PushgatewayMetrics
 
     def logger
       @logger ||= Logger.new($stdout).tap do |log|
-        log.progname = self.name
+        log.progname = 'pushgateway-metrics'
       end
     end
 
