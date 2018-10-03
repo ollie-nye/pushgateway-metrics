@@ -49,7 +49,7 @@ parameters:
 
 - `:metric_name` - Symbol - Name of the metric. Appears in the pushgateway
   first
-- Options hash
+- Options hash as below:
 
 Key | Type | Default Value | Description
 --- | --- | --- | ---
