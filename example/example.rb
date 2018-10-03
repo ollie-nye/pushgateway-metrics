@@ -20,7 +20,12 @@ get '/' do
     c.job = 'ruby example job'
   end
 
-  metrics.incr(:hola, type: :counter, value: 2, labels: { nametype: params['metric'] } )
+  metrics.incr(
+    :metric_name,
+    type: :counter,
+    value: 2,
+    labels: { nametype: params['metric'] }
+  )
   metrics.push
 
   Net::HTTP.get_response(URI.parse('http://localhost:9091/metrics')).body
