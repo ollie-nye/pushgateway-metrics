@@ -13,11 +13,14 @@ module PushgatewayMetrics
 
   # Main config for this gem
   class Configuration
-    attr_accessor :gateway
+    attr_accessor :job
     attr_accessor :instance_name
+    attr_accessor :gateway
+
     def initialize
-      @gateway = 'localhost'
+      @job = 'local'
       @instance_name = 'instance'
+      @gateway = 'http://localhost/'
     end
   end
 end

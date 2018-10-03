@@ -1,15 +1,19 @@
 # frozen_string_literal: true
 
+require 'spec_helper'
+
 require_relative '../lib/pushgateway_metrics.rb'
 
 describe PushgatewayMetrics::Configuration do
   describe '#configure' do
-    let(:gateway) { 'not-localhost' }
+    let(:gateway) { 'http://not-localhost' }
     let(:instance_name) { 'example_instance' }
+    let(:job) { 'a-job' }
     before do
       PushgatewayMetrics.configure do |config|
         config.gateway = gateway
         config.instance_name = instance_name
+        config.job = job
       end
     end
 
@@ -21,6 +25,10 @@ describe PushgatewayMetrics::Configuration do
       expect(
         PushgatewayMetrics.configuration.instance_name
       ).to eq(instance_name)
+    end
+
+    it 'uses the configured job name' do
+      expect(PushgatewayMetrics.configuration.job).to eq(job)
     end
   end
 end
