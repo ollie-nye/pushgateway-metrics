@@ -4,6 +4,6 @@ source 'https://rubygems.org'
 
 ruby '2.5.1'
 
-gem 'pushgateway-metrics', '~> 1.0.0', path: '../'
+gem 'pushgateway-metrics', '~> 1.0'
 
 gem 'sinatra'
