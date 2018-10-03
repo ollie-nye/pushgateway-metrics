@@ -4,6 +4,7 @@ require_relative './configuration.rb'
 
 require 'prometheus/client'
 require 'prometheus/client/push'
+require 'active_support/core_ext/string/inflections'
 
 # Ruby interface to a Prometheus pushgateway
 module PushgatewayMetrics
@@ -42,8 +43,12 @@ module PushgatewayMetrics
       end
     end
 
-    def incr(metric, labels = {}, value = 1)
-      registry.counter(metric, metric.to_s.humanize) unless
+    def incr(metric, options = {})
+      type = options[:type] || :counter
+      labels = options[:labels] || {}
+      value = options[:value] || 1
+
+      registry.send(type, metric, metric.to_s.humanize) unless
         registry.exist?(metric)
       registry.get(metric).increment(labels, value)
     end
