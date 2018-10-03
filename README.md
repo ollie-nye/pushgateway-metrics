@@ -55,7 +55,7 @@ Key                       | Type           | Default Value | Description
 -------------------------:| --------------:| -------------:| ---
 `type: :{counter\|gauge}` | Symbol         | `:counter`    | Type of the metric
 `value: <number>`         | Number literal | 1             | Amount to increase the metric by
-`labels: <hash>`          | Hash           | `{}`          | Any labels here will be added onto the recorded metric to provide different levels of specifity
+`labels: <hash>`          | Hash           | `{}`          | Labels to add to the metric
 
 When all metrics have been set, call `push` on `metrics`. This will push all
 recorded metrics to the gateway.
