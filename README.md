@@ -28,7 +28,7 @@ end
 ```
 
 `<hostname_of_gateway>` requires the protocol and port as well as the hostname,
-like `http://pushgateway.local:9091`, without a trailing slash
+like `http://pushgateway.local:9091`. Do not include a trailing slash
 `<instance_name>` is what will appear on your metrics as the instance of the job
 `<job_name>` is what will appear on your metrics as the job or source
 
