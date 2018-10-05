@@ -6,7 +6,7 @@ more required configuration that is difficult to find elsewhere. This gem sets
 everything up as required, allowing you to increment metrics without worrying
 about the fuss of configuring a non-standard use
 
-Available on RubyGems at https://rubygems.org/gems/pushgateway-metrics
+Available on [RubyGems](https://rubygems.org/gems/pushgateway-metrics)
 
 ## Getting started
 
