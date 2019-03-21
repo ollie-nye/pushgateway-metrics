@@ -18,4 +18,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'webmock', '~> 3.4.2'
 
   s.add_runtime_dependency 'prometheus-client', '~> 0.8.0'
+  s.add_runtime_dependency 'activesupport', '~> 5.2.2.1'
 end
