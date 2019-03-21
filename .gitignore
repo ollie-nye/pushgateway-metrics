@@ -1,3 +1,4 @@
 Gemfile.lock
 example/Gemfile.lock
 pushgateway-metrics-*.*.*.gem
+.rspec
