@@ -1,0 +1,24 @@
+rvm:
+  - 2.2
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
+
+script: echo "Running tests against ruby version $(ruby -v)..."
+
+jobs:
+  include:
+    - stage: rspec
+      script: bundle exec rspec
+    - stage: rubocop
+      script: bundle exec rubocop
+    - stage: release
+      rvm: 2.6
+      script: echo "Deploying to rubygems.org..."
+      deploy:
+        provider: rubygems
+        gem: pushgateway_metrics
+        api_key: $API_KEY
+        on:
+          tags: true
