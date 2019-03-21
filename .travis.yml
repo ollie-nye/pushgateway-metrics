@@ -1,6 +1,8 @@
 language: ruby
 jobs:
   include:
+    - stage: rubocop
+      script: bundle exec rubocop
     - stage: rspec 2.2
       rvm: 2.3
       script: bundle exec rspec
@@ -13,8 +15,6 @@ jobs:
     - stage: rspec 2.5
       rvm: 2.6
       script: bundle exec rspec
-    - stage: rubocop
-      script: bundle exec rubocop
     - stage: release
       script: echo "Deploying to rubygems.org..."
       deploy:
