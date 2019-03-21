@@ -2,8 +2,6 @@
 
 require 'spec_helper'
 
-require_relative '../lib/pushgateway_metrics.rb'
-
 describe PushgatewayMetrics::Configuration do
   describe '#configure' do
     let(:gateway) { 'http://not-localhost' }
