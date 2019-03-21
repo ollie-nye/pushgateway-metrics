@@ -1,28 +1,21 @@
-jobs:
+language: ruby
+matrix:
   include:
-    - stage: rspec
-      rvm:
-        - 2.2
-        - 2.3
-        - 2.4
-        - 2.5
-        - 2.6
-      script: bundle exec rspec
-    - stage: rubocop
-      rvm:
-        - 2.2
-        - 2.3
-        - 2.4
-        - 2.5
-        - 2.6
-      script: bundle exec rubocop
-    - stage: release
-      rvm: 2.6
-      script: echo "Deploying to rubygems.org..."
-      deploy:
-        provider: rubygems
-        gem: pushgateway_metrics
-        api_key:
-          secure: 2VsGuEc7a48wDBFOjYWlhe/9vKqSZ9CibHMPxAv0mGzdJOva+aK6esc+c63+xD+S3WMWxwis0LSYdb9adbETqWBm/61imkAc38WgO1Gffg6U0i1NelGRreEpUcP483FH48vHlphuA5JrDV2TN635xafnug4B1flGQbchV3el/Ib/Q+ZK41tqEZTSeAcMdr1ByyofqW5n7IJNBs7Fg3CmFo9I035Ijh14YNOMY4y/i+sdPVRJIFkeAFB5ddnexRXiib/86xyZ83ykgmVurYOV68QZmlkbev2ndV7FHwP1fEbkj7PfQur7WSRvZaHrEtcVYwPYdSrdjSU6mu8ySXiN9emabJzk1OBpvMx//bOk/wZQ2uP3E/KkgDraoIOSqIfudHd41L0yhB03WYOZg0bi4nr0x+YChWuSNpAkJwBbG9anZtv9qlI+A5dtk8lRnFsomy+5bBRAsPoIrsnahAHJ5L5QI+dN0CayRQ36OEn1EqHwiUvKnn9IS5D10pNz4QlnRtiMBDsOqK7/KcT08fPPqZB3b6iyg3GId/O+QtCFSfK6Hc9wQZNPLGv4sfqrxzfOfBC3/bv4OGWtLVljujptU7ahlAuNLdERJg2zcS0RZqRlYiT12dNRaSGh3GZZKahbMXV6JQIarCXEXAUq8vT/pxW7KiRhCsSx/Ey581BGZK8=
-        on:
-          tags: true
+    - rvm: 2.2
+    - rvm: 2.3
+    - rvm: 2.4
+    - rvm: 2.5
+    - rvm: 2.6
+script: bundle exec rspec
+
+rvm: 2.6
+script: bundle exec rubocop
+
+script: echo "Deploying to rubygems.org..."
+deploy:
+  provider: rubygems
+  gem: pushgateway_metrics
+  api_key:
+    secure: 2VsGuEc7a48wDBFOjYWlhe/9vKqSZ9CibHMPxAv0mGzdJOva+aK6esc+c63+xD+S3WMWxwis0LSYdb9adbETqWBm/61imkAc38WgO1Gffg6U0i1NelGRreEpUcP483FH48vHlphuA5JrDV2TN635xafnug4B1flGQbchV3el/Ib/Q+ZK41tqEZTSeAcMdr1ByyofqW5n7IJNBs7Fg3CmFo9I035Ijh14YNOMY4y/i+sdPVRJIFkeAFB5ddnexRXiib/86xyZ83ykgmVurYOV68QZmlkbev2ndV7FHwP1fEbkj7PfQur7WSRvZaHrEtcVYwPYdSrdjSU6mu8ySXiN9emabJzk1OBpvMx//bOk/wZQ2uP3E/KkgDraoIOSqIfudHd41L0yhB03WYOZg0bi4nr0x+YChWuSNpAkJwBbG9anZtv9qlI+A5dtk8lRnFsomy+5bBRAsPoIrsnahAHJ5L5QI+dN0CayRQ36OEn1EqHwiUvKnn9IS5D10pNz4QlnRtiMBDsOqK7/KcT08fPPqZB3b6iyg3GId/O+QtCFSfK6Hc9wQZNPLGv4sfqrxzfOfBC3/bv4OGWtLVljujptU7ahlAuNLdERJg2zcS0RZqRlYiT12dNRaSGh3GZZKahbMXV6JQIarCXEXAUq8vT/pxW7KiRhCsSx/Ey581BGZK8=
+  on:
+    tags: true
