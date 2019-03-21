@@ -2,19 +2,29 @@
 
 require 'spec_helper'
 
-require_relative '../lib/pushgateway_metrics.rb'
-
 def conf
   PushgatewayMetrics.configuration
 end
 
 describe PushgatewayMetrics::Metrics do
   let(:instance) { PushgatewayMetrics::Metrics.new }
-  let(:request_path) {
+  let(:request_path) do
     "#{conf.gateway}/metrics/jobs/" \
     "#{conf.job}/instances/" \
     "#{conf.instance_name}"
-  }
+  end
+
+  before :all do
+    PushgatewayMetrics.configure do |config|
+      config.gateway = 'http://not-localhost'
+      config.instance_name = 'example_instance'
+      config.job = 'a-job'
+    end
+  end
+
+  before do
+    allow(conf.logger).to receive(:info)
+  end
 
   describe '#errored' do
     it 'sets true when passed true' do
@@ -31,13 +41,15 @@ describe PushgatewayMetrics::Metrics do
   describe '#error' do
     let(:err_msg) { 'an error message' }
 
-    it 'outputs the message to the logger' do
-      expect(conf.logger).to receive(:info).with(err_msg)
+    before do
       instance.error(err_msg)
     end
 
+    it 'outputs the message to the logger' do
+      expect(conf.logger).to have_received(:info).with(err_msg)
+    end
+
     it 'sets errored to true' do
-      instance.error(err_msg)
       expect(instance.errored).to be(true)
     end
   end
@@ -45,6 +57,7 @@ describe PushgatewayMetrics::Metrics do
   describe '#push' do
     before do
       stub_request(:post, request_path)
+      allow(conf.logger).to receive(:info)
     end
 
     it 'calls add on the gateway with configured parameters' do
@@ -61,11 +74,11 @@ describe PushgatewayMetrics::Metrics do
 
       before do
         stub_request(:post, request_path).to_raise(Errno::ECONNREFUSED)
+        instance.push
       end
 
       it 'outputs the message to the logger' do
-        expect(conf.logger).to receive(:info).with(err_msg)
-        instance.push
+        expect(conf.logger).to have_received(:info).with(err_msg)
       end
     end
 
@@ -76,25 +89,22 @@ describe PushgatewayMetrics::Metrics do
 
       before do
         stub_request(:post, request_path).to_timeout
+        instance.push
       end
 
       it 'outputs the message to the logger' do
-        expect(conf.logger).to receive(:info).with(err_msg)
-        instance.push
+        expect(conf.logger).to have_received(:info).with(err_msg)
       end
     end
   end
 
   describe '#incr' do
-    let(:return_metric) { Prometheus::Client::Counter.new(:ga, 'test') }
-    let(:method) { :counter }
-
     before do
-      allow(instance.registry).to receive(method).and_call_original
+      allow(instance.registry).to receive(method)
       allow(
         instance.registry
       ).to receive(:get).with(:metric).and_return(return_metric)
-      allow(return_metric).to receive(:increment).and_call_original
+      allow(return_metric).to receive(:increment)
     end
 
     context 'when the type of a metric is gauge' do
