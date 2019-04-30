@@ -1,0 +1,15 @@
+kind: pipeline
+name: default
+
+steps:
+- name: rubocop
+  image: ruby:2.6.0-alpine
+  commands:
+  - bundle install
+  - bundle exec rubocop
+
+- name: rspec
+  image: ruby:2.6.0-alpine
+  commands:
+  - bundle install
+  - bundle exec rspec
