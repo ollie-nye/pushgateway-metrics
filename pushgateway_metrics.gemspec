@@ -2,8 +2,8 @@
 
 Gem::Specification.new do |s|
   s.name = 'pushgateway-metrics'
-  s.version = '1.1.4'
-  s.date = '2018-10-03'
+  s.version = '1.1.6'
+  s.date = '2020-05-27'
   s.summary = 'An abstracted interface sitting between a Prometheus ' \
               'Pushgateway and your app'
   s.authors = ['Ollie Nye']
