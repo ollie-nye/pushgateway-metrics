@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rubocop', '~> 0.59.1'
   s.add_development_dependency 'webmock', '~> 3.4.2'
 
-  s.add_runtime_dependency 'activesupport', '~> 5.2.2.1'
+  s.add_runtime_dependency 'activesupport', '~> 5.2.4.3'
   s.add_runtime_dependency 'prometheus-client', '~> 0.8.0'
 end
